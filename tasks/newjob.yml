@@ -1,0 +1,16 @@
+platform: linux
+
+image_resource:
+    type: registry-image
+    source: { repository: busybox }
+
+params:
+  MY_VAR1: ((sample-var-01))
+  MY_VAR2: ((sample-var-02))
+
+run:
+  path: sh
+  args:
+  - -c
+  - |
+    echo ${MY_VAR1} new jobs

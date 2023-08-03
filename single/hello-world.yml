@@ -4,6 +4,8 @@ jobs:
   - get: task
   - task: hello-world
     file: task/tasks/hello-world.yml
+    vars:
+      sample-var: ((sample-var))
 
 resources:
 - name: task

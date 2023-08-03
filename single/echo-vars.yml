@@ -1,11 +1,7 @@
 jobs:
-- name: sample-pipeline
+- name: echo-vars
   plan:
   - get: task
-  - task: hello-world
-    file: task/tasks/hello-world.yml
-    vars:
-      sample-var: ((sample-var))
   - task: echo-vars
     file: task/tasks/echo-vars.yml
     vars:

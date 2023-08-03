@@ -13,7 +13,7 @@ jobs:
   - get: concourse-test
     trigger: true
   - set_pipeline: self
-    file: concourse-test/set_pipelines.yml
+    file: concourse-test/pipelines/set-pipelines.yml
 
 - name: set-pipelines
   plan:

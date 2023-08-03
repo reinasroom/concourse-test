@@ -1,0 +1,12 @@
+jobs:
+- name: hello-world
+  plan:
+  - get: task
+  - task: hello-world
+    file: task/tasks/hello-world.yml
+
+resources:
+- name: task
+  type: git
+  source:
+    uri: https://github.com/reinasroom/concourse-test.git

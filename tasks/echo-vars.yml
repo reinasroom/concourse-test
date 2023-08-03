@@ -1,0 +1,15 @@
+platform: linux
+
+image_resource:
+    type: registry-image
+    source: { repository: busybox }
+
+params:
+  MY_VAR: ((sample-var))
+
+run:
+  path: sh
+  args:
+  - -c
+  - |
+    echo ${MY_VAR}

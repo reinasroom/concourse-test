@@ -5,11 +5,12 @@ image_resource:
     source: { repository: busybox }
 
 params:
-  MY_VAR: ((sample-var))
+  sample-var-01: ((sample-var-01))
+  sample-var-02: ((sample-var-02))
 
 run:
   path: sh
   args:
   - -c
   - |
-    echo ${MY_VAR}
+    echo ${sample-var-01} and ${sample-var-02}

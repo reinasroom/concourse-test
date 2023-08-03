@@ -1,3 +1,8 @@
+environment: &environment
+  sample-var-01: ((sample-var-01))
+  sample-var-02: ((sample-var-02))
+  sample-var-03: ((sample-var-03))
+
 jobs:
 - name: sample-pipeline
   plan:
@@ -5,11 +10,11 @@ jobs:
   - task: hello-world
     file: task/tasks/hello-world.yml
     vars:
-      sample-var: ((sample-var))
+      << : *environment
   - task: echo-vars
     file: task/tasks/echo-vars.yml
     vars:
-      sample-var: ((sample-var))
+      << : *environment
 
 resources:
 - name: task

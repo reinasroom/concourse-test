@@ -4,7 +4,8 @@ resources:
   icon: github
   check_every: 30m
   source:
-    uri: https://github.com/reinasroom/concourse-test.git
+    uri: https://github.com/reinasroom/concourse-test
+    branch: master
 
 jobs:
 - name: set-self

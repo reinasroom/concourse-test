@@ -8,13 +8,21 @@ resources:
     branch: master
 
 jobs:
+- name: set-self
+  public: true
+  plan:
+  - get: concourse-test
+    trigger: true
+  - set_pipeline: self
+    file: concourse-test/pipelines/set-pipelines.yml
+
 - name: set-pipelines
   public: true
   plan:
   - get: concourse-test
     trigger: true
   - set_pipeline: sample-pipeline
-    file: concourse-test/pipelines/sample-pipeline.yaml
+    file: concourse-test/pipelines/sample-pipeline.yml
     var_files:
       - concourse-test/vars/vars.yml
 

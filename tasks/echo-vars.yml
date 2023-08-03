@@ -1,8 +1,3 @@
-environment: &environment
-  sample-var-01: ((sample-var-01))
-  sample-var-02: ((sample-var-02))
-  sample-var-03: ((sample-var-03))
-
 platform: linux
 
 image_resource:
@@ -10,7 +5,9 @@ image_resource:
     source: { repository: busybox }
 
 params:
-  << : *environment
+  MY_VAR1: ((sample-var-01))
+  MY_VAR2: ((sample-var-02))
+  MY_VAR3: ((sample-var-03))
 
 run:
   path: sh

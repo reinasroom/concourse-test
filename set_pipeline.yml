@@ -1,0 +1,36 @@
+---
+resources:
+- name: concourse-test
+  type: git
+  icon: github
+  check_every: 30m
+  source:
+    uri: https://github.com/reinasroom/concourse-test.git
+
+jobs:
+- name: set-self
+  plan:
+  - get: concourse-test
+    trigger: true
+  - set_pipeline: self
+    file: concourse-test/set-pipelines.yml
+
+- name: set-pipelines
+  plan:
+  - get: concourse-test
+    trigger: true
+    passed: [set-self]
+  - set_pipeline: sample_pipeline
+    file: concourse-test/pipelines/sample_pipeline.yaml
+    var_files:
+      - concourse-test/vars/vars.yml
+
+- name: set-single
+  plan:
+  - get: concourse-test
+    trigger: true
+    passed: [set-self]
+  - set_pipeline: hello-world
+    file: concourse-test/single/hello-world.yml
+    var_files:
+      - concourse-test/vars/vars.yml

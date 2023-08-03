@@ -2,13 +2,14 @@ resources:
 - name: concourse-test
   type: git
   icon: github
-  check_every: 30m
+  check_every: 1m
   source:
     uri: https://github.com/reinasroom/concourse-test
     branch: master
 
 jobs:
 - name: set-self
+  public: true
   plan:
   - get: concourse-test
     trigger: true
@@ -16,6 +17,7 @@ jobs:
     file: concourse-test/pipelines/set-pipelines.yml
 
 - name: set-pipelines
+  public: true
   plan:
   - get: concourse-test
     trigger: true
@@ -26,6 +28,7 @@ jobs:
       - concourse-test/vars/vars.yml
 
 - name: set-single
+  public: true
   plan:
   - get: concourse-test
     trigger: true

@@ -8,22 +8,13 @@ resources:
     branch: master
 
 jobs:
-- name: set-self
-  public: true
-  plan:
-  - get: concourse-test
-    trigger: true
-  - set_pipeline: self
-    file: concourse-test/pipelines/set-pipelines.yml
-
 - name: set-pipelines
   public: true
   plan:
   - get: concourse-test
     trigger: true
-    passed: [set-self]
-  - set_pipeline: sample_pipeline
-    file: concourse-test/pipelines/sample_pipeline.yaml
+  - set_pipeline: sample-pipeline
+    file: concourse-test/pipelines/sample-pipeline.yaml
     var_files:
       - concourse-test/vars/vars.yml
 
@@ -32,7 +23,6 @@ jobs:
   plan:
   - get: concourse-test
     trigger: true
-    passed: [set-self]
   - set_pipeline: hello-world
     file: concourse-test/single/hello-world.yml
     var_files:

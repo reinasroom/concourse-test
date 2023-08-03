@@ -1,5 +1,5 @@
 jobs:
-- name: sample_pipeline
+- name: sample-pipeline
   plan:
   - get: task
   - task: hello-world

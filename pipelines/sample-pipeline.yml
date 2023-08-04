@@ -1,3 +1,29 @@
+resource_types:
+- name: slack-alert
+  type: registry-image
+  source:
+    repository: arbourd/concourse-slack-alert-resource
+
+resources:
+- name: task
+  type: git
+  source:
+    uri: https://github.com/reinasroom/concourse-test.git
+- name: notify
+  type: slack-alert
+  source:
+    url: (mask)
+
+notification: &notification
+  on_failure:
+    put: notify
+    params:
+      alert_type: failed
+  on_error:
+    put: notify
+    params:
+      alert_type: errored
+
 environment: &environment
   sample-var-01: ((sample-var-01))
   sample-var-02: ((sample-var-02))
@@ -7,17 +33,31 @@ jobs:
 - name: sample-pipeline
   plan:
   - get: task
-  - task: hello-world
-    file: task/tasks/hello-world.yml
-    vars:
-      << : *environment
-  - task: echo-vars
-    file: task/tasks/echo-vars.yml
-    vars:
-      << : *environment
-
-resources:
-- name: task
-  type: git
-  source:
-    uri: https://github.com/reinasroom/concourse-test.git
+  - in_parallel:
+      limit: 2
+      steps:
+      - task: hello-world
+        file: task/tasks/hello-world.yml
+        vars:
+          << : *environment
+        << : *notification
+      - task: echo-vars
+        file: task/tasks/echo-vars.yml
+        vars:
+          << : *environment
+        << : *notification
+      - task: echo-vars
+        file: task/tasks/echo-vars.yml
+        vars:
+          << : *environment
+        << : *notification
+      - task: echo-vars
+        file: task/tasks/echo-vars.yml
+        vars:
+          << : *environment
+        << : *notification
+      - task: echo-vars
+        file: task/tasks/echo-vars.yml
+        vars:
+          << : *environment
+        << : *notification

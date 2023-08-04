@@ -12,7 +12,7 @@ resources:
 - name: notify
   type: slack-alert
   source:
-    url: (mask)
+    url: ((webhook))
 
 notification: &notification
   on_failure:
@@ -34,7 +34,7 @@ jobs:
   plan:
   - get: task
   - in_parallel:
-      limit: 2
+      limit: ((limit))
       steps:
       - task: hello-world
         file: task/tasks/hello-world.yml
@@ -60,4 +60,19 @@ jobs:
         file: task/tasks/echo-vars.yml
         vars:
           << : *environment
+        << : *notification
+      - task: echo-vars
+        config:
+          platform: linux
+          image_resource:
+            type: registry-image
+            source: { repository: busybox }
+          run:
+            path: sh
+            args:
+            - -c
+            - |
+              test
+          vars:
+            << : *environment
         << : *notification

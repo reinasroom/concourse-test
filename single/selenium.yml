@@ -1,0 +1,58 @@
+resource_types:
+- name: slack-alert
+  type: registry-image
+  source:
+    repository: arbourd/concourse-slack-alert-resource
+
+resources:
+- name: notify
+  type: slack-alert
+  source:
+    url: ((webhook))
+
+notification: &notification
+  on_failure:
+    put: notify
+    params:
+      alert_type: failed
+  on_error:
+    put: notify
+    params:
+      alert_type: errored
+
+jobs:
+- name: job
+  public: true
+  plan:
+  - task: success-test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: 
+          repository: reinasroom/python-selenium-sample
+          tag: latest
+      run:
+        path: sh
+        args:
+          - -c
+          - |
+            cd /app
+            pytest app.py
+    << : *notification
+  - task: fail-test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source: 
+          repository: reinasroom/python-selenium-sample
+          tag: latest
+      run:
+        path: sh
+        args:
+          - -c
+          - |
+            cd /app
+            pytest fail.py
+    << : *notification

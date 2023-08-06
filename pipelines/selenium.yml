@@ -16,6 +16,9 @@ resources:
 
 environment: &environment
   image-tag: ((image-tag))
+  sample-var-01: ((sample-var-01))
+  sample-var-02: ((sample-var-02))
+  sample-var-03: ((sample-var-03))
 
 jobs:
 - name: job
@@ -28,10 +31,10 @@ jobs:
         file: task/tasks/success-example.yml
         vars:
           << : *environment
-        on_success:
+        on_failure:
           put: notify
           params:
-            alert_type: success
+            alert_type: failed
             text: success-test-1
             channel: "#random"
         on_error:
@@ -45,10 +48,10 @@ jobs:
         file: task/tasks/success-example.yml
         vars:
           << : *environment
-        on_success:
+        on_failure:
           put: notify
           params:
-            alert_type: success
+            alert_type: failed
             text: success-test-2
             channel: "#random"
         on_error:
@@ -62,10 +65,10 @@ jobs:
         file: task/tasks/success-example.yml
         vars:
           << : *environment
-        on_success:
+        on_failure:
           put: notify
           params:
-            alert_type: success
+            alert_type: failed
             text: success-test-3
             channel: "#random"
         on_error:
@@ -75,15 +78,15 @@ jobs:
             text: success-test-3
             channel: "#random"
 
-      - task: success-test-4
-        file: task/tasks/success-example.yml
+      - task: fail-test-4
+        file: task/tasks/fail-example.yml
         vars:
           << : *environment
-        on_success:
+        on_failure:
           put: notify
           params:
-            alert_type: success
-            text: success-test-4
+            alert_type: failed
+            text: fail-test-4
             channel: "#random"
         on_error:
           put: notify
@@ -96,10 +99,10 @@ jobs:
         file: task/tasks/success-example.yml
         vars:
           << : *environment
-        on_success:
+        on_failure:
           put: notify
           params:
-            alert_type: success
+            alert_type: failed
             text: success-test-5
             channel: "#random"
         on_error:

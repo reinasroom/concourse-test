@@ -3,3 +3,4 @@ sample-var-02: bobobo
 sample-var-03: unagi
 webhook: (mask)
 limit: 3
+image-tag: latest

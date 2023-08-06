@@ -1,0 +1,111 @@
+resource_types:
+- name: slack-alert
+  type: registry-image
+  source:
+    repository: arbourd/concourse-slack-alert-resource
+
+resources:
+- name: task
+  type: git
+  source:
+    uri: https://github.com/reinasroom/concourse-test.git
+- name: notify
+  type: slack-alert
+  source:
+    url: ((webhook))
+
+environment: &environment
+  image-tag: ((image-tag))
+
+jobs:
+- name: job
+  plan:
+  - get: task
+  - in_parallel:
+      limit: ((limit))
+      steps:
+      - task: success-test-1
+        file: task/tasks/success-example.yml
+        vars:
+          << : *environment
+        on_success:
+          put: notify
+          params:
+            alert_type: success
+            text: success-test-1
+            channel: "#random"
+        on_error:
+          put: notify
+          params:
+            alert_type: errored
+            text: success-test-1
+            channel: "#random"
+
+      - task: success-test-2
+        file: task/tasks/success-example.yml
+        vars:
+          << : *environment
+        on_success:
+          put: notify
+          params:
+            alert_type: success
+            text: success-test-2
+            channel: "#random"
+        on_error:
+          put: notify
+          params:
+            alert_type: errored
+            text: success-test-2
+            channel: "#random"
+
+      - task: success-test-3
+        file: task/tasks/success-example.yml
+        vars:
+          << : *environment
+        on_success:
+          put: notify
+          params:
+            alert_type: success
+            text: success-test-3
+            channel: "#random"
+        on_error:
+          put: notify
+          params:
+            alert_type: errored
+            text: success-test-3
+            channel: "#random"
+
+      - task: success-test-4
+        file: task/tasks/success-example.yml
+        vars:
+          << : *environment
+        on_success:
+          put: notify
+          params:
+            alert_type: success
+            text: success-test-4
+            channel: "#random"
+        on_error:
+          put: notify
+          params:
+            alert_type: errored
+            text: success-test-4
+            channel: "#random"
+
+      - task: success-test-5
+        file: task/tasks/success-example.yml
+        vars:
+          << : *environment
+        on_success:
+          put: notify
+          params:
+            alert_type: success
+            text: success-test-5
+            channel: "#random"
+        on_error:
+          put: notify
+          params:
+            alert_type: errored
+            text: success-test-5
+            channel: "#random"
+

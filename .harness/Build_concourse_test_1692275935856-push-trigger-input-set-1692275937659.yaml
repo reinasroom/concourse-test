@@ -1,0 +1,14 @@
+inputSet:
+  name: Build_concourse_test_1692275935856-push-trigger-input-set
+  identifier: Build_concourse_test_1692275935856pushtriggerinputset
+  orgIdentifier: default
+  projectIdentifier: default_project
+  pipeline:
+    identifier: Build_concourse_test_1692275935856
+    properties:
+      ci:
+        codebase:
+          build:
+            type: branch
+            spec:
+              branch: <+trigger.branch>
